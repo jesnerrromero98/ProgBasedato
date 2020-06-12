@@ -1,4 +1,6 @@
-											
+										
+	use master
+	go
 											--GESTOR DE BASE DATOS = SQL SERVER 2014 MANAGEMENT STUDIO--
 
 CREATE DATABASE FRESHDENT /*SE CREA LA BASE DE DATOS APLICANDO NOMBRE A ELLA*/
@@ -13,7 +15,7 @@ IdExpediente INT PRIMARY KEY IDENTITY (1,1),											--Almacena el código de e
 Cedula VARCHAR (100),																	--Almacena la cedula de la persona en el expediente.
 Nombres VARCHAR (80),																	--Almacena los nombres de la persona en el expediente.
 Apellidos VARCHAR (80),																	--Almacena los apellidos de la persona en el expediente.
-Fecha_Nacimiento DATE,																	--Almacena la fecha de nacimiento de la persona en el expediente.
+Fecha_Nacimiento varchar (30),																	--Almacena la fecha de nacimiento de la persona en el expediente.
 Telefono_Celular INT,																	--Almacena el teléfono-celular de la persona en el expediente.
 Municipio VARCHAR (50),																	--Almacena el municipio donde vive la persona en el expediente. 
 Departamento VARCHAR (50),																--Almacena el departamento que forma parte el municipio donde vive la persona en el expediente.
@@ -77,12 +79,35 @@ IdReceta INT																			/*Almacena código de receta médica.*/
 FOREIGN KEY (IdReceta) REFERENCES Receta (IdReceta),
 );
 
+create table Users(
+UserID int identity(1,1) primary key,
+LoginName nvarchar (100) unique not null,
+Password nvarchar (100) not null
+);
+insert into Users values ('doctor','0987654321')                                                         
+insert into Users values ('admin','1234567890')
  ----------------------------------------------------------------PROCEDIMIENTO ALMACENADO------------------------------------------------------------------------------------
-
+--crear procedure registro
+ALTER PROCEDURE Us
+	@b INT, @UserID int ,@LoginName nvarchar (100), @Password nvarchar (100)
+	AS
+		BEGIN
+			SET NOCOUNT ON;
+			
+			IF @b=1
+				INSERT INTO Users VALUES (@LoginName,@Password); --Guarda la información insertada.
+			IF @b=2
+				SELECT * FROM Users--Muestra toda la información guardada.
+			IF @b=3
+				UPDATE Users SET LoginName=@LoginName, Password=@Password WHERE UserID = @UserID; --Actualiza la información seleccionada por el número de registro asignado.
+			IF @b=4
+				SELECT * FROM Users WHERE LoginName = @LoginName and [Password] = @Password --Inicia sesión el usuario
+		END
+	GO
 
  --Se crea el procedimiento almacenado para la tabla Expediente
 CREATE PROCEDURE Expedient
-	@b INT, @IdExpediente INT, @Cedula VARCHAR (100), @Nombres VARCHAR (80), @Apellidos VARCHAR (80), @Fecha_Nacimiento DATETIME, @Telefono_Celular INT, @Municipio VARCHAR (50), @Departamento VARCHAR (50)
+	@b INT, @IdExpediente INT, @Cedula VARCHAR (100), @Nombres VARCHAR (80), @Apellidos VARCHAR (80), @Fecha_Nacimiento varchar (20), @Telefono_Celular INT, @Municipio VARCHAR (50), @Departamento VARCHAR (50)
 	---------------------------------------------------------------------------Atributos que tiene el procedimiento almacenado------------------------------------------------------------------------------
 	
 	AS
@@ -98,7 +123,7 @@ CREATE PROCEDURE Expedient
 			IF @b=4
 				UPDATE Expediente SET Cedula=@Cedula, Nombres=@Nombres, Apellidos=@Apellidos, Fecha_Nacimiento=@Fecha_Nacimiento, Telefono_Celular = @Telefono_Celular, Municipio = @Municipio, Departamento = @Departamento WHERE IdExpediente = @IdExpediente; --Actualiza la información seleccionada por el número de registro asignado.
 			IF @b=5
-				SELECT * FROM Expediente WHERE Cedula LIKE '%' + @Cedula + '%' --Busca la información utilizando un atributo de la entidad, en este caso se utiliza cédula para observar la información de la persona que contenga el número de cédula ingresado.
+				SELECT * FROM Expediente WHERE Nombres LIKE '%' + @Nombres + '%' --Busca la información utilizando un atributo de la entidad, en este caso se utiliza cédula para observar la información de la persona que contenga el número de cédula ingresado.
 		END
 	GO
 
@@ -197,5 +222,22 @@ CREATE PROCEDURE Cit
 				DELETE FROM Cita WHERE IdCita = @IdCita; --Elimina la información guardada utilizando el número que fue asignado de forma automática.
 			IF @b=3
 				SELECT * FROM Cita --Muestra toda la información guardada.
+			IF @b=4
+				UPDATE Cita SET FechaCita = @FechaCita, HoraDisponible = @HoraDisponible, Precio = @Precio, Tipo = @Tipo, IdExpediente = @IdExpediente, IdMedico = @IdMedico WHERE IdCita = @IdCita; --Actualiza la información seleccionada por el número de registro asignado.
+			IF @b=5
+				SELECT * FROM Cita WHERE Tipo LIKE '%' + @Tipo + '%'  --Buscar la información utilizando un atributo de la entidad, en este caso se utiliza Fecha Cita para observar la informacion de la cita determinada.
+
 		END
 	GO
+
+	--Se crea el procedimiento almacenado para el Respaldo
+	CREATE PROCEDURE RespaldoBD_GER
+		AS
+			BEGIN
+				SET NOCOUNT ON;
+
+				BACKUP DATABASE FRESHDENT
+				TO DISK = N'C:\Users\Elkin Maltez\Documents\Ingenieria en Sistema\2020\I Semestre\Programación de Base de Datos\Proyecto' ---Directorio donde se guardará el respaldo de la base de datos
+				WITH CHECKSUM;
+			END
+		GO

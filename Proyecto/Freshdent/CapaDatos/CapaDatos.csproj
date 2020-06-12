@@ -41,8 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="accesoDatosCita.cs" />
+    <Compile Include="accesoDatosConsulta.cs" />
+    <Compile Include="accesoDatosEspecialidad.cs" />
     <Compile Include="accesoDatosExpediente.cs" />
+    <Compile Include="accesoDatosMedico.cs" />
+    <Compile Include="accesoDatosReceta.cs" />
+    <Compile Include="accesoDatosRespaldoBD.cs" />
     <Compile Include="Conexion.cs" />
+    <Compile Include="InicioSesion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

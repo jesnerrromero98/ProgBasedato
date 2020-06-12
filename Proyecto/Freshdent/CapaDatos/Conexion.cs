@@ -12,7 +12,7 @@ namespace CapaDatos
         public SqlConnection conectar()
         {
             SqlConnection cn = new SqlConnection();
-            cn.ConnectionString = "Data Source=LAPTOP-NTPLPEFA;Initial Catalog=FRESHDENT;Integrated Security=True";
+            cn.ConnectionString = "Data Source=(local);Initial Catalog=FRESHDENT;Integrated Security=True";
             return cn;
         }
     }

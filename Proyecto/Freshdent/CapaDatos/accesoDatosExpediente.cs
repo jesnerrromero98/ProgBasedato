@@ -79,10 +79,10 @@ namespace CapaDatos
                 {
                     Expediente ex = new Expediente();
                     ex.IdExpediente = Convert.ToInt32(dr["IdExpediente"].ToString());
-                    ex.Cedula = dr["Ceula"].ToString();
+                    ex.Cedula = dr["Cedula"].ToString();
                     ex.Nombres = dr["Nombres"].ToString();
                     ex.Apellidos = dr["Apellidos"].ToString();
-                    ex.Fecha_Nacimiento =Convert.ToDateTime(dr["Fecha_Nacimiento"].ToString());
+                    ex.Fecha_Nacimiento =dr["Fecha_Nacimiento"].ToString();
                     ex.Telefono_Celular = Convert.ToInt32(dr["Telefono_Celular"].ToString());
                     ex.Municipio = dr["Municipio"].ToString();
                     ex.Departamento = dr["Departamento"].ToString();
@@ -144,12 +144,12 @@ namespace CapaDatos
                 cm = new SqlCommand("Expedient", cnx);
                 cm.Parameters.AddWithValue("@b", 4);
                 cm.Parameters.AddWithValue("@IdExpediente", ex.IdExpediente);
-                cm.Parameters.AddWithValue("@Cedula", "");
-                cm.Parameters.AddWithValue("@Nombres", "");
-                cm.Parameters.AddWithValue("@Apellidos", "");
-                cm.Parameters.AddWithValue("@Fecha_Nacimiento", "");
-                cm.Parameters.AddWithValue("@Telefono_Celular", "");
-                cm.Parameters.AddWithValue("@Municipio", "");
+                cm.Parameters.AddWithValue("@Cedula", ex.Cedula);
+                cm.Parameters.AddWithValue("@Nombres", ex.Nombres);
+                cm.Parameters.AddWithValue("@Apellidos",ex.Apellidos);
+                cm.Parameters.AddWithValue("@Fecha_Nacimiento", ex.Fecha_Nacimiento);
+                cm.Parameters.AddWithValue("@Telefono_Celular", ex.Telefono_Celular);
+                cm.Parameters.AddWithValue("@Municipio", ex.Municipio);
                 cm.Parameters.AddWithValue("@Departamento", ex.Departamento);
 
                 cm.CommandType = CommandType.StoredProcedure;
@@ -178,8 +178,8 @@ namespace CapaDatos
                 cm = new SqlCommand("Expedient", cnx);
                 cm.Parameters.AddWithValue("@b", 5);
                 cm.Parameters.AddWithValue("@IdExpediente", "");
-                cm.Parameters.AddWithValue("@Cedula", dato);
-                cm.Parameters.AddWithValue("@Nombres", "");
+                cm.Parameters.AddWithValue("@Cedula", "");
+                 cm.Parameters.AddWithValue("@Nombres",dato);
                 cm.Parameters.AddWithValue("@Apellidos", "");
                 cm.Parameters.AddWithValue("@Fecha_Nacimiento", "");
                 cm.Parameters.AddWithValue("@Telefono_Celular", "");
@@ -195,10 +195,10 @@ namespace CapaDatos
                 {
                     Expediente ex = new Expediente();
                     ex.IdExpediente = Convert.ToInt32(dr["IdExpediente"].ToString());
-                    ex.Cedula = dr["Ceula"].ToString();
+                    ex.Cedula = dr["Cedula"].ToString();
                     ex.Nombres = dr["Nombres"].ToString();
                     ex.Apellidos = dr["Apellidos"].ToString();
-                    ex.Fecha_Nacimiento = Convert.ToDateTime(dr["Fecha_Nacimiento"].ToString());
+                    ex.Fecha_Nacimiento =dr["Fecha_Nacimiento"].ToString();
                     ex.Telefono_Celular = Convert.ToInt32(dr["Telefono_Celular"].ToString());
                     ex.Municipio = dr["Municipio"].ToString();
                     ex.Departamento = dr["Departamento"].ToString();
